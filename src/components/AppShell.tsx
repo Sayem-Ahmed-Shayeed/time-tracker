@@ -20,16 +20,38 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     const main = mainRef.current
     if (!main) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const targets = Array.from(main.children)
-    if (targets.length === 0) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        targets,
-        { y: 14, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.07, duration: 0.55, ease: 'power3.out' },
-      )
-    }, main)
-    return () => ctx.revert()
+
+    let ctx: gsap.Context | null = null
+    let animatedRoute: string | null = null
+
+    const isLoader = (el: Element) =>
+      el.getAttribute('role') === 'status' && el.getAttribute('aria-label') === 'Loading page'
+
+    const animate = () => {
+      const targets = Array.from(main.children)
+      if (targets.length === 0 || targets.some(isLoader)) return
+      if (ctx) ctx.revert()
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          targets,
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.07, duration: 0.55, ease: 'power3.out' },
+        )
+      }, main)
+      animatedRoute = location.pathname
+    }
+
+    animate()
+
+    const observer = new MutationObserver(() => {
+      if (animatedRoute !== location.pathname) animate()
+    })
+    observer.observe(main, { childList: true })
+
+    return () => {
+      observer.disconnect()
+      if (ctx) ctx.revert()
+    }
   }, [location.pathname])
 
   async function handleSignOut() {
