@@ -17,67 +17,58 @@ const app = initializeApp({ credential: cert(JSON.parse(readFileSync(SA_FILE, 'u
 const auth = getAuth(app)
 const db = getFirestore(app)
 
-let keeperUid = null
-let totalUsers = 0
-let deletedUsers = 0
-const listAll = async (next) => {
-  const page = await auth.listUsers(1000, next)
-  totalUsers += page.users.length
-  for (const u of page.users) {
-    const hay = [u.uid, u.email, u.displayName].filter(Boolean).map((v) => v.toLowerCase())
-    if (hay.some((v) => v.includes(keeper.toLowerCase()))) {
-      keeperUid = u.uid
-      console.log(`keeper: ${u.uid} ${u.email ?? ''} ${u.displayName ?? ''}`)
-    } else {
-      await auth.deleteUser(u.uid)
-      deletedUsers++
-    }
-  }
-  return page.pageToken
-}
+const users = []
 let token
 do {
-  token = await listAll(token)
+  const page = await auth.listUsers(1000, token)
+  users.push(...page.users)
+  token = page.pageToken
 } while (token)
 
-if (!keeperUid) {
-  console.log(`No account matching "${keeper}" among ${totalUsers} users. Nothing deleted.`)
+const matches = users.filter((u) =>
+  [u.uid, u.email, u.displayName].filter(Boolean).some((v) => v.toLowerCase().includes(keeper.toLowerCase()))
+)
+if (matches.length === 0) {
+  console.log(`No account matches "${keeper}" among ${users.length} users. Nothing was deleted.`)
+  await deleteApp(app)
+  process.exit(2)
+}
+if (matches.length > 1) {
+  console.log(`Ambiguous: ${matches.length} accounts match "${keeper}". Nothing was deleted.`)
+  for (const m of matches) console.log(`  ${m.uid} ${m.email ?? ''} ${m.displayName ?? ''}`)
   await deleteApp(app)
   process.exit(2)
 }
 
-let deletedEntries = 0
-const snaps = await db.collection('timeEntries').where('userId', '!=', keeperUid).select('userId').limit(500).get()
-while (!snaps.empty) {
-  const batch = db.batch()
-  for (const s of snaps.docs) {
-    batch.delete(s.ref)
-    deletedEntries++
+const keep = matches[0]
+const others = users.filter((u) => u.uid !== keep.uid)
+console.log(`keeper: ${keep.uid} ${keep.email ?? ''} ${keep.displayName ?? ''} (${users.length} users total)`)
+
+let deletedUsers = 0
+for (const u of others) {
+  await auth.deleteUser(u.uid)
+  deletedUsers++
+}
+console.log(`users deleted: ${deletedUsers}`)
+
+for (const coll of ['projects', 'timeEntries']) {
+  let deleted = 0
+  let snaps = await db.collection(coll).where('userId', '==', keep.uid).select('userId').limit(1).get()
+  let keeperDocs = !snaps.empty
+  let page = await db.collection(coll).limit(500).get()
+  while (!page.empty) {
+    const batch = db.batch()
+    for (const d of page.docs) {
+      if (d.data().userId !== keep.uid) {
+        batch.delete(d.ref)
+        deleted++
+      }
+    }
+    await batch.commit()
+    page = await db.collection(coll).limit(500).get()
   }
-  await batch.commit()
-  const next = await db.collection('timeEntries').where('userId', '!=', keeperUid).select('userId').limit(500).get()
-  snaps.docs.length = 0
-  snaps.docs.push(...next.docs)
-  if (snaps.empty) break
+  console.log(`${coll}: ${keeperDocs ? 'kept keeper docs | ' : ''}others deleted: ${deleted}`)
 }
 
-let deletedProjects = 0
-const snaps2 = await db.collection('projects').where('userId', '!=', keeperUid).select('userId').limit(500).get()
-while (!snaps2.empty) {
-  const batch = db.batch()
-  for (const s of snaps2.docs) {
-    batch.delete(s.ref)
-    deletedProjects++
-  }
-  await batch.commit()
-  const next = await db.collection('projects').where('userId', '!=', keeperUid).select('userId').limit(500).get()
-  snaps2.docs.length = 0
-  snaps2.docs.push(...next.docs)
-  if (snaps2.empty) break
-}
-
-console.log(`users found: ${totalUsers} | deleted: ${deletedUsers}`)
-console.log(`time entries deleted (others): ${deletedEntries}`)
-console.log(`projects deleted (others): ${deletedProjects}`)
-console.log(`kept: ${keeperUid} + their projects/time entries`)
 await deleteApp(app)
+console.log('done')
