@@ -230,19 +230,19 @@ a {
 }
 
 .btn-primary {
-  border: 1px solid #f7c76f;
-  background: linear-gradient(180deg, #fac76d, var(--color-hazard));
-  color: #17130c;
+  border: 1px solid #7de8d9;
+  background: linear-gradient(180deg, #7de8d7, #4fd0bb);
+  color: #0c1f1b;
   box-shadow:
-    0 1px 0 rgb(255 255 255 / 0.5) inset,
-    0 7px 20px rgb(246 184 74 / 0.12);
+    0 1px 0 rgb(255 255 255 / 0.4) inset,
+    0 7px 20px rgb(104 224 207 / 0.15);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: linear-gradient(180deg, #ffd27d, #f8bb4d);
+  background: linear-gradient(180deg, #8ff0e2, #56d9c5);
   box-shadow:
-    0 1px 0 rgb(255 255 255 / 0.55) inset,
-    0 10px 28px rgb(246 184 74 / 0.18);
+    0 1px 0 rgb(255 255 255 / 0.5) inset,
+    0 10px 28px rgb(104 224 207 / 0.22);
 }
 
 .btn-ghost {
