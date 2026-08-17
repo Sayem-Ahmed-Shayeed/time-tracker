@@ -25,6 +25,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.185.4",
     "@vitejs/plugin-react": "^6.0.4",
+    "firebase-admin": "^14.2.0",
     "firebase-tools": "^15.27.0",
     "oxlint": "^1.75.0",
     "tailwindcss": "^4.3.3",
