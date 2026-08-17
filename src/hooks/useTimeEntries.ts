@@ -39,8 +39,8 @@ export function useTimeEntries() {
     return unsubscribe
   }, [user])
 
-  const runningEntry = useMemo(
-    () => entries.find((e) => e.end === null) ?? null,
+  const runningEntries = useMemo(
+    () => entries.filter((e) => e.end === null),
     [entries],
   )
 
@@ -66,7 +66,7 @@ export function useTimeEntries() {
   return {
     entries,
     loading,
-    runningEntry,
+    runningEntries,
     addEntry,
     updateEntry,
     deleteEntry,

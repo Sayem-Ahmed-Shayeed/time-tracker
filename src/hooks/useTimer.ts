@@ -1,40 +1,44 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTimeEntries } from './useTimeEntries'
-import type { Project } from '../lib/types'
+import type { Project, TimeEntry } from '../lib/types'
 
 export function useTimer(projects: Project[]) {
-  const { runningEntry, addEntry, updateEntry } = useTimeEntries()
-  const [elapsed, setElapsed] = useState(0)
-  const lastStartRef = useRef(0)
+  const { runningEntries, addEntry, updateEntry } = useTimeEntries()
+  const [now, setNow] = useState(Date.now())
+
+  const anyRunning = runningEntries.length > 0
 
   useEffect(() => {
-    if (!runningEntry) {
-      setElapsed(0)
-      return
-    }
-    lastStartRef.current = runningEntry.start
-
-    const tick = () => setElapsed(Date.now() - lastStartRef.current)
+    if (!anyRunning) return
+    const tick = () => setNow(Date.now())
     tick()
     const interval = setInterval(tick, 1000)
     return () => clearInterval(interval)
-  }, [runningEntry])
+  }, [anyRunning, runningEntries])
+
+  const runningProjects = useMemo(
+    () =>
+      runningEntries.map((entry) => ({
+        entry,
+        project: projects.find((p) => p.id === entry.projectId) ?? null,
+      })),
+    [runningEntries, projects],
+  )
 
   async function start(projectId: string) {
-    if (runningEntry) {
-      if (runningEntry.projectId === projectId) return
-      await updateEntry(runningEntry.id, { end: Date.now() })
-    }
+    if (runningEntries.some((e) => e.projectId === projectId)) return
     await addEntry({ projectId, start: Date.now(), end: null })
   }
 
-  async function stop() {
-    if (!runningEntry) return
-    await updateEntry(runningEntry.id, { end: Date.now() })
+  async function stop(projectId: string) {
+    const entry = runningEntries.find((e) => e.projectId === projectId)
+    if (!entry) return
+    await updateEntry(entry.id, { end: Date.now() })
   }
 
-  const runningProject =
-    projects.find((p) => p.id === runningEntry?.projectId) ?? null
+  function elapsedFor(entry: TimeEntry): number {
+    return now - entry.start
+  }
 
-  return { runningEntry, runningProject, elapsed, start, stop }
+  return { runningEntries, runningProjects, elapsedFor, start, stop }
 }
