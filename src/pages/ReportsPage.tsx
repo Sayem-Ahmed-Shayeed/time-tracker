@@ -107,7 +107,7 @@ export function ReportsPage() {
             <button
               key={item.key}
               onClick={() => setRange(item.key)}
-              className={`tab-btn min-h-9 px-3 text-xs font-semibold transition ${range === item.key ? 'tab-btn-active' : ''}`}
+              className={`tab-btn min-h-8 px-3 text-xs font-semibold transition ${range === item.key ? 'tab-btn-active' : ''}`}
               aria-pressed={range === item.key}
             >
               {item.label}

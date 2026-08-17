@@ -40,7 +40,7 @@ export function TimesPage() {
                 setEditing(null)
                 setFormOpen(true)
               }}
-              className="btn btn-primary px-4 py-2.5 text-sm"
+              className="btn btn-primary px-4 py-1.5 text-sm"
             >
               Add entry <span aria-hidden>＋</span>
             </button>

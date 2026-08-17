@@ -163,7 +163,7 @@ export function ProjectsPage() {
               })}
             </div>
           </fieldset>
-          <button type="submit" disabled={busy} className="btn btn-primary w-full px-5 py-2.5 disabled:opacity-50 lg:w-auto">
+          <button type="submit" disabled={busy} className="btn btn-primary w-full px-5 py-1.5 disabled:opacity-50 lg:w-auto">
             {busy ? 'Creating…' : <>Create project <span aria-hidden>＋</span></>}
           </button>
         </div>

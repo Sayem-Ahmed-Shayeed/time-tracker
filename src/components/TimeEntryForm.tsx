@@ -80,8 +80,8 @@ export function TimeEntryForm({ projects, entry, onSave, onCancel }: Props) {
         {error && <p role="alert" className="rounded-xl border border-alert/30 bg-alert/[0.07] px-3.5 py-3 text-sm text-alert sm:col-span-2">{error}</p>}
 
         <div className="flex flex-wrap gap-2 border-t border-white/[0.06] pt-4 sm:col-span-2">
-          <button type="submit" disabled={busy} className="btn btn-primary px-4 py-2 disabled:opacity-50">{busy ? 'Saving…' : 'Save entry'}</button>
-          <button type="button" onClick={onCancel} className="btn btn-ghost px-4 py-2">Cancel</button>
+          <button type="submit" disabled={busy} className="btn btn-primary px-4 py-1.5 disabled:opacity-50">{busy ? 'Saving…' : 'Save entry'}</button>
+          <button type="button" onClick={onCancel} className="btn btn-ghost px-4 py-1.5">Cancel</button>
         </div>
       </form>
     </section>

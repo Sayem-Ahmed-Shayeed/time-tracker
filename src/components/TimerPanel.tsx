@@ -56,7 +56,7 @@ export function TimerPanel({ projects }: { projects: Project[] }) {
                     </span>
                     <button
                       onClick={() => void stop(entry.projectId)}
-                      className="btn btn-primary px-4 py-2 text-sm"
+                      className="btn btn-primary px-3.5 py-1.5 text-sm"
                     >
                       <span className="h-2 w-2 rounded-[2px] bg-current" aria-hidden />
                       Stop

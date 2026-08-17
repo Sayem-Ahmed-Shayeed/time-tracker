@@ -142,7 +142,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
               <button
                 type="submit"
                 disabled={busy}
-                className="btn btn-primary w-full py-2.5 disabled:opacity-50"
+                className="btn btn-primary w-full py-1.5 disabled:opacity-50"
               >
                 {busy ? (
                   <><span className="h-3.5 w-3.5 animate-spin rounded-full border border-current border-r-transparent" aria-hidden /> Working…</>
