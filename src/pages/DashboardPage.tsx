@@ -61,23 +61,14 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-7 sm:space-y-9">
-      <header className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-        <div>
-          <p className="eyebrow">Workspace overview</p>
-          <h1 className="page-title">Your time, in focus.</h1>
-          <p className="page-copy">Start a session, check today’s momentum, and keep your project activity moving from one calm workspace.</p>
-        </div>
-        <Link to="/reports" className="btn btn-ghost w-fit px-4 text-sm">
-          Open reports <span aria-hidden>↗</span>
-        </Link>
-      </header>
+      <DailyQuote />
 
-      <section className="grid gap-4 lg:grid-cols-2 lg:items-start" aria-label="Timer and motivation">
-        <DailyQuote />
+      <section className="grid gap-4 lg:grid-cols-2 lg:items-start">
+        <Showpiece3D />
         <TimerPanel projects={projects} />
       </section>
 
-      <Showpiece3D />
+      <DailyQuote />
 
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 sm:gap-4" aria-label="Time summary">
         <Stat label="Today" value={formatDurationLong(todayMs)} accent="#f6b84a" detail="Completed time" />

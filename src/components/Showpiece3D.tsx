@@ -171,8 +171,8 @@ export function Showpiece3D() {
   }, [])
 
   return (
-    <section className="surface-elevated relative overflow-hidden" aria-label="3D showpiece">
-      <div ref={hostRef} className="relative h-44 w-full cursor-crosshair sm:h-56" />
+    <section className="surface-elevated relative flex flex-col overflow-hidden" aria-label="3D showpiece">
+      <div ref={hostRef} className="relative min-h-44 w-full flex-1 sm:min-h-56" />
       <div className="pointer-events-none absolute bottom-3 left-4 flex items-center gap-2.5">
         <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: '#68e0cf' }} aria-hidden />
         <p className="font-mono text-[10px] tracking-[0.22em] text-muted-2 uppercase">Live render — three.js + gsap</p>
