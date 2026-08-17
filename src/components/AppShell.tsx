@@ -1,5 +1,7 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useLayoutEffect, useRef } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import gsap from 'gsap'
 
 const LINKS = [
   { to: '/', label: 'Overview', icon: '⌁' },
@@ -11,6 +13,24 @@ const LINKS = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const mainRef = useRef<HTMLElement>(null)
+
+  useLayoutEffect(() => {
+    const main = mainRef.current
+    if (!main) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const targets = Array.from(main.children)
+    if (targets.length === 0) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        targets,
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.07, duration: 0.55, ease: 'power3.out' },
+      )
+    }, main)
+    return () => ctx.revert()
+  }, [location.pathname])
 
   async function handleSignOut() {
     await signOut()
@@ -72,7 +92,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+      <main ref={mainRef} className="mx-auto max-w-6xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
         {children}
       </main>
     </div>

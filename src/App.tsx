@@ -5,6 +5,9 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { AppShell } from './components/AppShell'
 import { AuthPage } from './pages/AuthPage'
 
+const Backdrop3D = lazy(() =>
+  import('./components/Backdrop3D').then((m) => ({ default: m.Backdrop3D })),
+)
 const DashboardPage = lazy(() =>
   import('./pages/DashboardPage').then((m) => ({ default: m.DashboardPage })),
 )
@@ -36,6 +39,9 @@ function Suspended({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <AuthProvider>
+      <Suspense fallback={null}>
+        <Backdrop3D />
+      </Suspense>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<AuthPage mode="login" />} />

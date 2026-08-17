@@ -6,7 +6,7 @@ import { formatDurationLong } from '../lib/format'
 
 function Stat({ label, value, accent, detail }: { label: string; value: string; accent?: string; detail: string }) {
   return (
-    <div className="panel panel-interactive reveal reveal-delay-2 p-4 sm:p-5">
+    <div className="panel panel-interactive p-4 sm:p-5">
       <div className="flex items-center justify-between gap-3">
         <p className="eyebrow">{label}</p>
         <span className="h-1.5 w-1.5 rounded-full bg-line" style={accent ? { background: accent } : undefined} aria-hidden />
@@ -35,7 +35,7 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-7 sm:space-y-9">
-      <header className="reveal flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+      <header className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <p className="eyebrow">Workspace overview</p>
           <h1 className="page-title">Your time, in focus.</h1>
@@ -55,7 +55,7 @@ export function DashboardPage() {
         <Stat label="Entries" value={String(completedCount)} detail="All completed" />
       </section>
 
-      <section className="panel reveal reveal-delay-3 overflow-hidden p-5 sm:p-6">
+      <section className="panel overflow-hidden p-5 sm:p-6">
         <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="eyebrow">Next action</p>
