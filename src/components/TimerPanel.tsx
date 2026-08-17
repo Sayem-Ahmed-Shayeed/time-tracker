@@ -98,7 +98,7 @@ export function TimerPanel({ projects }: { projects: Project[] }) {
                       type="button"
                       onClick={() => void start(project.id)}
                       disabled={running}
-                      aria-label={`Start tracking ${project.name}`}
+                      aria-label={running ? `${project.name} — tracking` : `Start tracking ${project.name}`}
                       className="btn btn-ghost px-3 text-xs"
                     >
                       {running ? (
