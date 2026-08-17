@@ -299,8 +299,8 @@ select.input {
   position: relative;
   display: inline-flex;
   align-items: center;
-  min-height: 2rem;
-  border-radius: 9px;
+  min-height: 1.625rem;
+  border-radius: 7px;
   color: var(--color-muted);
   transition: color 180ms ease, background-color 180ms ease;
 }
@@ -311,19 +311,9 @@ select.input {
 }
 
 .nav-link-active {
-  background: rgb(255 255 255 / 0.055);
-  color: var(--color-paper);
-}
-
-.nav-link-active::after {
-  content: "";
-  position: absolute;
-  right: 0.65rem;
-  bottom: 0.25rem;
-  left: 0.65rem;
-  height: 1px;
-  background: var(--color-teal);
-  opacity: 0.9;
+  background: rgb(104 224 207 / 0.12);
+  color: #a7f3e9;
+  border: 1px solid rgb(104 224 207 / 0.28);
 }
 
 .tab-btn {

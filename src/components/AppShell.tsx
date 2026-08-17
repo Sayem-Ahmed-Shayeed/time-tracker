@@ -20,7 +20,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="app-shell min-h-screen">
       <header className="sticky top-0 z-50 border-b border-white/[0.055] bg-ink/80 backdrop-blur-xl supports-[backdrop-filter]:bg-ink/68">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2 sm:px-6 lg:px-8">
           <NavLink to="/" className="group flex shrink-0 items-center gap-3" aria-label="Time Tracker home">
             <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl border border-white/10 bg-panel-2 shadow-[0_8px_24px_rgba(0,0,0,0.24)]">
               <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(246,184,74,.24),transparent_46%)]" aria-hidden />
@@ -36,14 +36,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </NavLink>
 
           <nav aria-label="Main" className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="mx-auto flex w-max items-center gap-1 rounded-xl border border-white/[0.055] bg-white/[0.018] p-1">
+            <div className="mx-auto flex w-max items-center gap-1 rounded-xl border border-white/[0.055] bg-white/[0.018] p-0.5">
               {LINKS.map((link) => (
                 <NavLink
                   key={link.to}
                   to={link.to}
                   end={link.to === '/'}
                   className={({ isActive }) =>
-                    `nav-link gap-2 px-2.5 py-1.5 text-xs font-semibold sm:px-3 ${isActive ? 'nav-link-active' : ''}`
+                    `nav-link gap-2 px-2.5 py-1 text-xs font-semibold sm:px-3 ${isActive ? 'nav-link-active' : ''}`
                   }
                 >
                   <span className="text-[11px] text-muted-2" aria-hidden>{link.icon}</span>
