@@ -68,8 +68,6 @@ export function DashboardPage() {
         <TimerPanel projects={projects} />
       </section>
 
-      <DailyQuote />
-
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 sm:gap-4" aria-label="Time summary">
         <Stat label="Today" value={formatDurationLong(todayMs)} accent="#f6b84a" detail="Completed time" />
         <Stat label="7 days" value={formatDurationLong(weekMs)} accent="#68e0cf" detail="Rolling total" />
