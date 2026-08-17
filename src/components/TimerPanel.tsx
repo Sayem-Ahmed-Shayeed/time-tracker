@@ -7,50 +7,56 @@ export function TimerPanel({ projects }: { projects: Project[] }) {
   const { runningProject, elapsed, start, stop } = useTimer(projects)
 
   return (
-    <div className="panel panel-ticks p-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p className="font-mono text-[10px] tracking-[0.3em] text-muted">
-            LIVE TIMER / {runningProject ? runningProject.name.toUpperCase() : 'IDLE'}
-          </p>
-          <p
-            className="mt-2 font-mono text-5xl font-semibold tabular-nums"
-            aria-live="off"
-          >
+    <section className="surface-elevated reveal reveal-delay-1 overflow-hidden p-5 sm:p-7" aria-label="Live timer">
+      <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-teal/[0.045] blur-3xl" aria-hidden />
+      <div className="relative grid gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className={`status-dot ${runningProject ? 'status-dot-live' : ''}`} style={!runningProject ? { background: '#686f7b', boxShadow: '0 0 0 4px rgb(104 111 123 / 0.08)' } : undefined} aria-hidden />
+            <p className="eyebrow">
+              {runningProject ? `Tracking · ${runningProject.name}` : 'Timer ready'}
+            </p>
+          </div>
+          <p className="metric-value mt-4 text-[clamp(3.2rem,9vw,6.7rem)] leading-none text-paper" aria-live="off">
             {formatDuration(elapsed)}
           </p>
+          <p className="mt-3 text-sm text-muted">
+            {runningProject ? 'Your active session is syncing automatically.' : 'Choose a project below to begin a focused session.'}
+          </p>
         </div>
-        <div className="flex gap-2">
-          {activeProjects.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => void start(p.id)}
-              className="btn btn-ghost px-3 py-1.5 text-sm uppercase"
-              disabled={runningProject?.id === p.id}
-              style={
-                runningProject?.id === p.id
-                  ? { borderColor: p.color, color: p.color }
-                  : undefined
-              }
-            >
-              <span
-                className="mr-1.5 inline-block h-2 w-2"
-                style={{ background: p.color }}
-                aria-hidden
-              />
-              {p.name}
-            </button>
-          ))}
-          {runningProject && (
-            <button
-              onClick={() => void stop()}
-              className="btn btn-primary px-4 py-1.5 text-sm uppercase"
-            >
-              Stop
-            </button>
-          )}
-        </div>
+
+        {runningProject && (
+          <button onClick={() => void stop()} className="btn btn-primary w-full px-5 py-2.5 sm:w-auto">
+            <span className="h-2 w-2 rounded-[2px] bg-current" aria-hidden />
+            Stop timer
+          </button>
+        )}
       </div>
-    </div>
+
+      <div className="relative mt-7 border-t border-white/[0.07] pt-5">
+        {activeProjects.length === 0 ? (
+          <p className="text-sm text-muted">Create an active project to start tracking time.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2" aria-label="Start timer for project">
+            {activeProjects.map((project) => {
+              const active = runningProject?.id === project.id
+              return (
+                <button
+                  key={project.id}
+                  onClick={() => void start(project.id)}
+                  className={`btn min-h-9 px-3 text-xs ${active ? 'border bg-white/[0.055] text-paper' : 'btn-ghost'}`}
+                  disabled={active}
+                  style={active ? { borderColor: `${project.color}66` } : undefined}
+                >
+                  <span className="h-2 w-2 rounded-full" style={{ background: project.color }} aria-hidden />
+                  {project.name}
+                  {!active && <span className="ml-1 text-muted-2" aria-hidden>↗</span>}
+                </button>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </section>
   )
 }

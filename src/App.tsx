@@ -20,10 +20,11 @@ const ReportsPage = lazy(() =>
 
 function PageLoader() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <span className="font-mono text-sm tracking-widest text-muted">
-        LOADING<span className="animate-pulse">...</span>
-      </span>
+    <div className="flex min-h-[55vh] items-center justify-center" role="status" aria-label="Loading page">
+      <div className="flex items-center gap-3 rounded-xl border border-line-soft bg-panel/70 px-4 py-3 shadow-panel backdrop-blur">
+        <span className="relative h-2 w-2 rounded-full bg-hazard before:absolute before:inset-[-5px] before:animate-ping before:rounded-full before:border before:border-hazard/30" aria-hidden />
+        <span className="font-mono text-[10px] font-semibold tracking-[0.24em] text-muted">LOADING VIEW</span>
+      </div>
     </div>
   )
 }
