@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useProjects } from '../hooks/useProjects'
 import { useTimeEntries } from '../hooks/useTimeEntries'
 import { TimerPanel } from '../components/TimerPanel'
+import { Showpiece3D } from '../components/Showpiece3D'
 import { QUOTES } from '../lib/quotes'
 import { formatDurationLong } from '../lib/format'
 
@@ -71,9 +72,12 @@ export function DashboardPage() {
         </Link>
       </header>
 
-      <DailyQuote />
+      <section className="grid gap-4 lg:grid-cols-2 lg:items-start" aria-label="Timer and motivation">
+        <DailyQuote />
+        <TimerPanel projects={projects} />
+      </section>
 
-      <TimerPanel projects={projects} />
+      <Showpiece3D />
 
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 sm:gap-4" aria-label="Time summary">
         <Stat label="Today" value={formatDurationLong(todayMs)} accent="#f6b84a" detail="Completed time" />
