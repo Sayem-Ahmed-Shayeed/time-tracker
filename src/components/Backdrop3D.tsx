@@ -58,12 +58,15 @@ export function Backdrop3D() {
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
 
+    let animating = false
+
     const resize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
       camera.aspect = width / height
       camera.updateProjectionMatrix()
       renderer.setSize(width, height, false)
+      if (!animating) renderer.render(scene, camera)
     }
     resize()
     window.addEventListener('resize', resize)
@@ -78,6 +81,7 @@ export function Backdrop3D() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       renderer.render(scene, camera)
     } else {
+      animating = true
       const tick = () => {
         frameId = requestAnimationFrame(tick)
         if (hidden) return
