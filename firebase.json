@@ -1,5 +1,5 @@
 {
-  "project": "demo-time-tracker",
+  "project": "track-your-projects",
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
