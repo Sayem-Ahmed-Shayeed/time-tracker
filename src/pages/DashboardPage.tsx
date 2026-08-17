@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useProjects } from '../hooks/useProjects'
 import { useTimeEntries } from '../hooks/useTimeEntries'
 import { TimerPanel } from '../components/TimerPanel'
+import { QUOTES } from '../lib/quotes'
 import { formatDurationLong } from '../lib/format'
 
 function Stat({ label, value, accent, detail }: { label: string; value: string; accent?: string; detail: string }) {
@@ -14,6 +16,29 @@ function Stat({ label, value, accent, detail }: { label: string; value: string; 
       <p className="metric-value mt-5 text-2xl sm:text-3xl" style={{ color: accent ?? undefined }}>{value}</p>
       <p className="mt-1.5 text-xs text-muted-2">{detail}</p>
     </div>
+  )
+}
+
+function DailyQuote() {
+  const [quote] = useState(() => {
+    const visit = Number(localStorage.getItem('typ-quote-visit') ?? '0') + 1
+    localStorage.setItem('typ-quote-visit', String(visit))
+    return QUOTES[(visit - 1) % QUOTES.length]
+  })
+
+  return (
+    <section className="surface-elevated relative overflow-hidden p-5 sm:p-6" aria-label="Motivational quote">
+      <span className="pointer-events-none absolute -top-8 left-4 font-display text-[7rem] leading-none text-teal/[0.09]" aria-hidden>
+        &ldquo;
+      </span>
+      <div className="relative">
+        <p className="eyebrow">Motivation of the visit</p>
+        <blockquote className="mt-3 max-w-3xl">
+          <p className="font-display text-lg font-[650] leading-snug tracking-[-0.03em] text-paper sm:text-xl">{quote.text}</p>
+          <footer className="mt-3 font-mono text-[11px] tracking-[0.18em] text-muted-2 uppercase">— {quote.author}</footer>
+        </blockquote>
+      </div>
+    </section>
   )
 }
 
@@ -45,6 +70,8 @@ export function DashboardPage() {
           Open reports <span aria-hidden>↗</span>
         </Link>
       </header>
+
+      <DailyQuote />
 
       <TimerPanel projects={projects} />
 

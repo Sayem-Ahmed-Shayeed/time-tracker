@@ -72,7 +72,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </svg>
             </span>
             <div className="hidden sm:block">
-              <p className="text-sm font-bold tracking-[-0.025em] text-paper">Tempo</p>
+              <p className="whitespace-nowrap text-sm font-bold tracking-[-0.025em] text-paper">Track Your Projects</p>
               <p className="-mt-0.5 font-mono text-[8px] tracking-[0.2em] text-muted-2">TIME SYSTEM</p>
             </div>
           </NavLink>

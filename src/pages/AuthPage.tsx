@@ -50,7 +50,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
               </svg>
             </span>
             <div>
-              <p className="font-bold tracking-[-0.03em]">Tempo</p>
+              <p className="font-bold tracking-[-0.03em]">Track Your Projects</p>
               <p className="font-mono text-[9px] tracking-[0.22em] text-muted-2">TIME SYSTEM</p>
             </div>
           </div>
@@ -83,7 +83,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
               </svg>
             </span>
             <div>
-              <p className="font-bold tracking-[-0.03em]">Tempo</p>
+              <p className="font-bold tracking-[-0.03em]">Track Your Projects</p>
               <p className="font-mono text-[9px] tracking-[0.22em] text-muted-2">TIME SYSTEM</p>
             </div>
           </div>
@@ -91,7 +91,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           <div className="surface-elevated p-6 sm:p-8">
             <p className="eyebrow">{isLogin ? 'Welcome back' : 'Create workspace'}</p>
             <h2 className="mt-2 font-display text-3xl font-[700] tracking-[-0.05em]">
-              {isLogin ? 'Sign in to Tempo' : 'Start tracking clearly'}
+              {isLogin ? 'Sign in to Track Your Projects' : 'Start tracking clearly'}
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted">
               {isLogin
@@ -156,7 +156,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
 
             <p className="mt-6 border-t border-white/[0.06] pt-5 text-sm text-muted">
               {isLogin ? (
-                <>New to Tempo?{' '}
+                <>New to Track Your Projects?{' '}
                   <Link to="/signup" className="font-semibold text-paper underline decoration-white/20 underline-offset-4 transition hover:decoration-hazard">
                     Create an account
                   </Link>
