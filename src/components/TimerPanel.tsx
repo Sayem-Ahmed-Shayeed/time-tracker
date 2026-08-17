@@ -79,28 +79,45 @@ export function TimerPanel({ projects }: { projects: Project[] }) {
         {activeProjects.length === 0 ? (
           <p className="text-sm text-muted">Create an active project to start tracking time.</p>
         ) : (
-          <div className="flex flex-wrap gap-2" aria-label="Start timer for project">
-            {activeProjects.map((project) => {
-              const running = runningProjects.some((r) => r.entry.projectId === project.id)
-              return (
-                <button
-                  key={project.id}
-                  onClick={() => void start(project.id)}
-                  className={`btn min-h-9 px-3 text-xs ${running ? 'border bg-white/[0.055] text-paper' : 'btn-ghost'}`}
-                  disabled={running}
-                  style={running ? { borderColor: `${project.color}66` } : undefined}
-                >
-                  <span className="h-2 w-2 rounded-full" style={{ background: project.color }} aria-hidden />
-                  {project.name}
-                  {running ? (
-                    <span className="ml-1 text-teal" aria-hidden>●</span>
-                  ) : (
-                    <span className="ml-1 text-muted-2" aria-hidden>↗</span>
-                  )}
-                </button>
-              )
-            })}
-          </div>
+          <>
+            <p className="text-sm text-muted">Tap Start on a project — several can run at once.</p>
+            <ul className="mt-3 space-y-2">
+              {activeProjects.map((project) => {
+                const running = runningProjects.some((r) => r.entry.projectId === project.id)
+                return (
+                  <li key={project.id} className="flex items-center justify-between gap-3">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <span
+                        className="h-2 w-2 shrink-0 rounded-full"
+                        style={{ background: project.color }}
+                        aria-hidden
+                      />
+                      <span className="truncate text-sm font-medium text-paper">{project.name}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => void start(project.id)}
+                      disabled={running}
+                      aria-label={`Start tracking ${project.name}`}
+                      className="btn btn-ghost px-3 text-xs"
+                    >
+                      {running ? (
+                        <>
+                          <span className="h-2 w-2 rounded-full bg-teal" aria-hidden />
+                          Tracking
+                        </>
+                      ) : (
+                        <>
+                          <span aria-hidden>{'\u25B6'}</span>
+                          Start
+                        </>
+                      )}
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </>
         )}
       </div>
     </section>
